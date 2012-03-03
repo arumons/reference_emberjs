@@ -9,8 +9,8 @@
 
     <!-- Le styles -->
 
-    <link href="../assets/css/bootstrap.css" rel="stylesheet">
-    <link href="../assets/css/bootswatch.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootswatch.css" rel="stylesheet">
 
     <style>
       body {
@@ -81,7 +81,7 @@
           <script type="text/x-handlebars">
             {{#each App.APIs.content}}
               {{#view App.ClassListView contentBinding="this"}}
-                {{content.name}}
+                <a>{{content.name}}</a>
               {{/view}}
             {{/each}}
           </script>
