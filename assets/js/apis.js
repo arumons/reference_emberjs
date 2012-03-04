@@ -5,7 +5,7 @@ apis = [{
       name: "A(arr)",
       type: "クラスメソッド",
       head_description: "Array like なオブジェクトからEmber.NativeArrayを生成する。",
-      description: "Array like なオブジェクトからEmber.NativeArrayを生成します。通常は配列を作るだけで自動的にNativeArrayが生成されるので、このメソッドを使うのはEXTEND_PROTOTYPESがfalseの時だけでしょう。",
+      description: "Array like なオブジェクトからEmber.NativeArrayを生成します。通常は配列を作るだけで自動的にNativeArrayが生成されるため、このメソッドを使うのはEXTEND_PROTOTYPESがfalseの時だけでしょう。",
       arguments: [
                   {name: "arr",
                    description: "array like なオブジェクト"}  
@@ -20,7 +20,7 @@ apis = [{
     {
       name: "addBeforeObserver(obj, path, target, method)",
       type: "クラスメソッド",
-      head_description: "指定したプロパティにオブザーバを設定する。",
+      head_description: "指定したプロパティにオブザーバを設定する。ここで設定したメソッドは値が変更される前に呼び出される。",
       description: "指定したプロパティにオブザーバーを設定します。ここで設定したオブザーバーはsetメソッドで値が変更される前に呼び出されます。",
       arguments: [
                   {name: "obj",

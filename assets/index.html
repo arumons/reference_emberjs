@@ -12,11 +12,56 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootswatch.css" rel="stylesheet">
 
-    <style>
+    <style type="text/css">
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
+      a {
+        font-weight: bold;
+      }
+      a:hover {
+        cursor: pointer;
+      }
       .property {
+        border-bottom: 1px solid white;
+      }
+      li {
+        border-bottom: 1px solid white;
+      }
+      p {
+        margin-top: 3px;
+        margin-bottom: 3px;
+        padding-left: 3px;
+        padding-right: 3px;
+        color: #E8E8E8;
+      }
+      .module-name {
+        background-color: white;
+      }
+      .module-name > a {
+        color: #555;
+        font-weight: 800;
+      }
+      
+      .type, .arguments, .return {
+        border: 1px solid white;
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+      .type > p, .arguments > p, .return > p {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+      .head {
+        color: #999
+        font-weight: bold;
+        margin: 2px;
+        background-color: white;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+      .argument-name {
+        margin: 2px;
         border-bottom: 1px solid white;
       }
     </style>
@@ -39,36 +84,35 @@
     
     <script type="text/javascript">
       var App = Em.Application.create();
-      App.ClassListView = Em.View.extend({   
-        click: function() {
-          App.ClassData.set('content', this.get('content'));
-        }   
+      App.ModuleView = Em.View.extend({  
+        isListed: false, 
+        toggleProperties: function() {
+          this.set('isListed', ! this.get('isListed'));
+        },
+        viewDetail: function() {
+          // get clicked property
+          var obj = this.$(event.target).text();
+          var properties = this.get('content').properties;
+          var property = properties.find(function(item, index) {
+            return item.name === obj;
+          });
+          
+          App.PropertyData.set('content', property);
+        }
       });
       
-      App.ClassData = Em.Object.create({
+      App.PropertyData = Em.Object.create({
         content: null
       });
       
-      App.ClassDetailView = Em.View.extend({
-        contentBinding: 'App.ClassData.content',
-        
-      });
-      
       App.PropertyView = Em.View.extend({
-        detailed: false,
-        
-        toggleDetail: function() {
-          var detailed = ! this.get('detailed');
-          this.set('detailed', detailed);
-        }
+        contentBinding: 'App.PropertyData.content',
       });
       
     </script>
     <script src="js/apis.js"></script>
     <style type="text/css">
-      ul {
-        list-style: none;
-      }
+      
     </style>
   </head>
 
@@ -90,56 +134,60 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3">
+        <div class="span5">
           <script type="text/x-handlebars">
             {{#each App.APIs.content}}
-              {{#view App.ClassListView contentBinding="this"}}
-                <a>{{content.name}}</a>
+              {{#view App.ModuleView contentBinding="this"}}
+                <p class="module-name" {{action "toggleProperties"}}><a>{{content.name}}</a></p>
+                {{#if isListed}}
+                  <ul class="unstyled">
+                    {{#each content.properties}}
+                      <li>
+                        <p><a {{action "viewDetail"}}>{{name}}</a></p>
+                        <p style="padding-left: 10px">{{head_description}}</p>
+                      </li>
+                    {{/each}}
+                  </ul>
+                {{/if}}
               {{/view}}
             {{/each}}
           </script>
         </div>
-       <!--
- <div class="span3">
-          aaa
-        </div>
--->
-        <div class="span9">
+        <div class="span7">
           <script type="text/x-handlebars">
-            {{#view App.ClassDetailView}}
-              <h1>Module:{{content.name}}</h1>
-              {{#each content.properties}}
-                {{#view App.PropertyView contentBinding="this" class="property"}}
-                  <h2>{{content.name}}</h2>
-                  {{#unless detailed}}
-                    {{content.head_description}}<br/>
-                  {{/unless}}
-                  <a {{action "toggleDetail" on="click"}}>詳細</a>
-                  {{#if detailed}}
-                    <p>
-                    {{content.description}}
-                    </p>
-                    <p>
-                      引数：<br>
-                      {{#each content.arguments}}
-                        <p>
-                        {{name}}<br>
-                        {{description}}
-                        </p>
-                      {{/each}}
-                      <p>
-                      返り値：<br>
-                      {{content.return_description}}
-                      </p>
-                      サンプル：<br>
-                      {{#each content.samples}}
-                        <iframe style="width: 100%; height: 300px" {{bindAttr src="jsFiddleUrl"}} allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-                      {{/each}}
-                    </p>
-                    type:{{type}}<br>
-                  {{/if}}
-                {{/view}}
-              {{/each}}
+            {{#view App.PropertyView}}
+              {{#with content}}
+                <h1>{{name}}</h1>
+                <p>
+                  {{description}}
+                </p>
+                <div class="type">
+                  <div class="head">タイプ</div>
+                  <p>{{type}}</p>
+                </div>
+                <div class="arguments">
+                  <div class="head">引数</div>
+                  {{#each arguments}}
+                    <div>
+                      <p class="argument-name">{{name}}</p>
+                      <p style="padding-left: 10px;">{{description}}</p>
+                    </div>
+                  {{/each}}
+                </div>
+                <div class="return">
+                  <div class="head">返り値</div>
+                  <p>
+                    {{return_description}}
+                  </p>
+                </div>
+                <p>
+                  サンプル：<br>
+                  {{#each samples}}
+                    <iframe style="width: 100%; height: 300px" {{bindAttr src="jsFiddleUrl"}} allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+                  {{/each}}
+                </p>
+                
+                {{/with}}
             {{/view}}
           </script>
         </div>
