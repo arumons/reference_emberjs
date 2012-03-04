@@ -92,7 +92,7 @@
         toggleProperties: function() {
           this.set('isListed', ! this.get('isListed'));
         },
-        viewDetail: function() {
+        viewDetail: function(view, event, context) {
           // get clicked property
           var obj = this.$(event.target).text();
           var properties = this.get('content').properties;
@@ -101,15 +101,17 @@
           });
           
           App.PropertyData.set('content', property);
+          App.PropertyData.set('viewSample', false);
         }
       });
       
       App.PropertyData = Em.Object.create({
-        content: null
+        content: null,
+        viewSample: false
       });
       
       App.PropertyView = Em.View.extend({
-        viewSample: false,
+        viewSampleBinding: 'App.PropertyData.viewSample',
         toggleSample: function() {
           this.set('viewSample', ! this.get('viewSample'));
         },
