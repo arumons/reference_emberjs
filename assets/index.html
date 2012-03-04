@@ -16,6 +16,9 @@
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
+      .property {
+        border-bottom: 1px solid white;
+      }
     </style>
     <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -96,39 +99,44 @@
             {{/each}}
           </script>
         </div>
+       <!--
+ <div class="span3">
+          aaa
+        </div>
+-->
         <div class="span9">
           <script type="text/x-handlebars">
             {{#view App.ClassDetailView}}
               <h1>Module:{{content.name}}</h1>
               {{#each content.properties}}
-                {{#view App.PropertyView contentBinding="this"}}
+                {{#view App.PropertyView contentBinding="this" class="property"}}
                   <h2>{{content.name}}</h2>
                   {{#unless detailed}}
                     {{content.head_description}}<br/>
                   {{/unless}}
                   <a {{action "toggleDetail" on="click"}}>詳細</a>
                   {{#if detailed}}
-                  <p>
-                  {{content.description}}
-                  </p>
-                  <p>
-                    引数：<br>
-                    {{#each content.arguments}}
-                      <p>
-                      {{name}}<br>
-                      {{description}}
-                      </p>
-                    {{/each}}
                     <p>
-                    返り値：<br>
-                    {{content.return_description}}
+                    {{content.description}}
                     </p>
-                    サンプル：<br>
-                    {{#each content.samples}}
-                      <iframe style="width: 100%; height: 300px" {{bindAttr src="jsFiddleUrl"}} allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-                    {{/each}}
-                  </p>
-                  type:{{type}}<br>
+                    <p>
+                      引数：<br>
+                      {{#each content.arguments}}
+                        <p>
+                        {{name}}<br>
+                        {{description}}
+                        </p>
+                      {{/each}}
+                      <p>
+                      返り値：<br>
+                      {{content.return_description}}
+                      </p>
+                      サンプル：<br>
+                      {{#each content.samples}}
+                        <iframe style="width: 100%; height: 300px" {{bindAttr src="jsFiddleUrl"}} allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+                      {{/each}}
+                    </p>
+                    type:{{type}}<br>
                   {{/if}}
                 {{/view}}
               {{/each}}
