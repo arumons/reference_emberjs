@@ -60,6 +60,9 @@
         padding-left: 5px;
         padding-right: 5px;
       }
+      .argument {
+        margin-top: 7px;
+      }
       .argument-name {
         margin: 2px;
         border-bottom: 1px solid white;
@@ -168,9 +171,9 @@
                 <div class="arguments">
                   <div class="head">引数</div>
                   {{#each arguments}}
-                    <div>
+                    <div class="argument">
                       <p class="argument-name">{{name}}</p>
-                      <p style="padding-left: 10px;">{{description}}</p>
+                      <p style="padding-left: 20px;">{{description}}</p>
                     </div>
                   {{/each}}
                 </div>
