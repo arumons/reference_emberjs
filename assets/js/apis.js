@@ -2,6 +2,7 @@ apis = [{
   name: "Ember",
   properties: [
     {
+      viewSample: false,
       name: "A(arr)",
       type: "クラスメソッド",
       head_description: "Array like なオブジェクトからEmber.NativeArrayを生成する。",

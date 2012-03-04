@@ -109,7 +109,11 @@
       });
       
       App.PropertyView = Em.View.extend({
-        contentBinding: 'App.PropertyData.content',
+        viewSample: false,
+        toggleSample: function() {
+          this.set('viewSample', ! this.get('viewSample'));
+        },
+        contentBinding: 'App.PropertyData.content'
       });
       
     </script>
@@ -183,14 +187,17 @@
                     {{return_description}}
                   </p>
                 </div>
-                <p>
-                  サンプル：<br>
-                  {{#each samples}}
+              {{/with}}
+              {{#if content}}
+              <p>
+                <a {{action "toggleSample"}}>サンプルの表示</a><br>
+                {{#if viewSample}}
+                  {{#each content.samples}}
                     <iframe style="width: 100%; height: 300px" {{bindAttr src="jsFiddleUrl"}} allowfullscreen="allowfullscreen" frameborder="0"></iframe>
                   {{/each}}
-                </p>
-                
-                {{/with}}
+                {{/if}}
+              </p>
+              {{/if}}
             {{/view}}
           </script>
         </div>
