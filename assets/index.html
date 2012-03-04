@@ -89,13 +89,30 @@
         <div class="span9">
           <script type="text/x-handlebars">
             {{#view App.ClassDetailView}}
-              <h1>{{content.name}}</h1>
+              <h1>Module:{{content.name}}</h1>
               {{#each content.properties}}
                 <h2>{{name}}</h2>
-                type:{{type}}<br>
                 <p>
                 {{description}}
                 </p>
+                <p>
+                  引数：<br>
+                  {{#each arguments}}
+                    <p>
+                    {{name}}<br>
+                    {{description}}
+                    </p>
+                  {{/each}}
+                  <p>
+                  返り値：<br>
+                  {{return_description}}
+                  </p>
+                  サンプル：<br>
+                  {{#each samples}}
+                    <iframe style="width: 100%; height: 300px" {{bindAttr src="jsFiddleUrl"}} allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+                  {{/each}}
+                </p>
+                type:{{type}}<br>
               {{/each}}
             {{/view}}
           </script>

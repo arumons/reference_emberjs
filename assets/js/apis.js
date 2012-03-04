@@ -2,14 +2,59 @@ apis = [{
   name: "Ember",
   properties: [
     {
-      name: "A",
+      name: "A(arr)",
       type: "クラスメソッド",
-      description: "オブジェクトからEmber.NativeArrayを生成します。通常は配列を作るだけで自動的にNativeArrayが生成されるので、このメソッドを使うのはEXTEND_PROTOTYPESがfalseの時だけでしょう。"
+      description: "Array like なオブジェクトからEmber.NativeArrayを生成します。通常は配列を作るだけで自動的にNativeArrayが生成されるので、このメソッドを使うのはEXTEND_PROTOTYPESがfalseの時だけでしょう。",
+      arguments: [
+                  {name: "arr",
+                   description: "array like なオブジェクト"}  
+                 ],
+      return_description: "NativeArray オブジェクト。引数がundefinedの場合は空の NativeArray が返される",
+      samples: [
+                {description: "配列を渡して拡張された NativeArray を取得する",
+                 jsFiddleUrl: "http://jsfiddle.net/arumons/aGxBY/embedded/"}
+      
+               ]
     },
     {
       name: "addBeforeObserver",
       type: "クラスメソッド",
-      description: "undefined"
+      description: "指定したプロパティにオブザーバーを設定します。ここで設定したオブザーバーはsetメソッドで値が変更される前に呼び出されます。",
+      arguments: [
+                  {name: "obj",
+                   description: "observe の対象となるオブジェクト"},
+                  {name: "path",
+                   description: "observe の対象となるプロパティ名。foo.bar のようにドットで子オブジェクトのプロパティも指定できる"}
+                 ],
+      return_description: "Ember オブジェクト",
+      samples: [
+                {description: "オブジェクトに addBeforeObserver を設定する",
+                 jsFiddleUrl: "http://jsfiddle.net/arumons/BhJA5/embedded/"
+                }
+               ]
+            
+    },
+    {
+      name: "addListener",
+      type: "クラスメソッド",
+      description: "イベントを登録します。",
+      arguments: [
+                  {name: "obj",
+                   description: "イベントの発生元となるオブジェクト"},
+                  {name: "eventName",
+                   description: "ここで指定したイベントが発生した際に、引数として渡した method が呼び出される"},
+                  {name: "target",
+                   description: "イベントハンドラのレシーバとなるオブジェクト"},
+                  {name: "method",
+                   description: "イベントハンドラ"},
+                  {xform: "addObserver の内部で addListener が呼び出される際に引数の変換用関数がこの引数に渡される。通常は意識する必要はない。"}
+                 ],
+      return_description: "undefined",
+      samples: [
+                {description: "addListner を呼び出してイベントが発生した際に、イベントハンドラを呼び出す。",
+                 jsFiddleUrl: "http://jsfiddle.net/arumons/p8vvD/embedded/"
+                }
+               ]
     }
   ]
 }];
