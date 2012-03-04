@@ -47,7 +47,17 @@
       });
       
       App.ClassDetailView = Em.View.extend({
-        contentBinding: 'App.ClassData.content'
+        contentBinding: 'App.ClassData.content',
+        
+      });
+      
+      App.PropertyView = Em.View.extend({
+        detailed: false,
+        
+        toggleDetail: function() {
+          var detailed = ! this.get('detailed');
+          this.set('detailed', detailed);
+        }
       });
       
     </script>
@@ -91,28 +101,36 @@
             {{#view App.ClassDetailView}}
               <h1>Module:{{content.name}}</h1>
               {{#each content.properties}}
-                <h2>{{name}}</h2>
-                <p>
-                {{description}}
-                </p>
-                <p>
-                  引数：<br>
-                  {{#each arguments}}
-                    <p>
-                    {{name}}<br>
-                    {{description}}
-                    </p>
-                  {{/each}}
+                {{#view App.PropertyView contentBinding="this"}}
+                  <h2>{{content.name}}</h2>
+                  {{#unless detailed}}
+                    {{content.head_description}}<br/>
+                  {{/unless}}
+                  <a {{action "toggleDetail" on="click"}}>詳細</a>
+                  {{#if detailed}}
                   <p>
-                  返り値：<br>
-                  {{return_description}}
+                  {{content.description}}
                   </p>
-                  サンプル：<br>
-                  {{#each samples}}
-                    <iframe style="width: 100%; height: 300px" {{bindAttr src="jsFiddleUrl"}} allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-                  {{/each}}
-                </p>
-                type:{{type}}<br>
+                  <p>
+                    引数：<br>
+                    {{#each content.arguments}}
+                      <p>
+                      {{name}}<br>
+                      {{description}}
+                      </p>
+                    {{/each}}
+                    <p>
+                    返り値：<br>
+                    {{content.return_description}}
+                    </p>
+                    サンプル：<br>
+                    {{#each content.samples}}
+                      <iframe style="width: 100%; height: 300px" {{bindAttr src="jsFiddleUrl"}} allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+                    {{/each}}
+                  </p>
+                  type:{{type}}<br>
+                  {{/if}}
+                {{/view}}
               {{/each}}
             {{/view}}
           </script>
